@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <link rel="stylesheet" href="elementUI/index.css">
+    <script src="elementUI/vue.js"></script>
+    <script src="elementUI/index.js"></script>
+    <script src="elementUI/axios.min.js"></script>
+    <style>
+        .img {
+            background-image: url("img/img15.jpg");
+            background-size: cover;
+        }
+
+        .el-main {
+            background-color: #b3d6ff;
+            color: #333;
+            text-align: center;
+            line-height: 80px;
+            margin: 300px;
+            opacity: 90%;
+        }
+
+        body>.el-container {
+            margin-bottom: 40px;
+        }
+
+        .el-container:nth-child(5) .el-aside,
+        .el-container:nth-child(6) .el-aside {
+            line-height: 260px;
+        }
+
+        .el-container:nth-child(7) .el-aside {
+            line-height: 320px;
+        }
+    </style>
+</head>
+
+<body class="img">
+    <div id="app">
+        <el-container>
+            <el-main>
+                <h1>欢迎使用智慧优游租车平台</h1>
+                <h4>请登录</h4>
+                <div>
+                <input type="text" v-model="username" placeholder="用户名">
+
+                <input type="password" v-model="password" placeholder="密码">
+                </div>
+                <div>
+                <img src="../api/code.png">
+            </div>
+                <input type="text" v-model="inputCode" placeholder="请输入验证码">
+                <button @click="login()">登录</button>
+                <button @click="regist()">新用户注册</button>
+            </el-main>
+        </el-container>
+    </div>
+
+    <script>
+
+        new Vue({
+            el: '#app',
+            data: function () {
+                return {
+                    username: '',
+                    password: '',
+                    inputCode:'',
+                    msg: "未知错误原因"
+                }
+            },
+            methods: {
+                login: function () {
+                    var _this = this;
+
+                    axios.get('../api/login/login?username=' + _this.username + "&password=" + _this.password + "&inputCode=" + _this.inputCode)
+                        .then(function (response) {
+                            console.log(response.data);
+                            if (response.data.code == 2001) {
+                                _this.msg = response.data.msgString;
+                                alert(_this.msg);
+                                localStorage.setItem("username", _this.username);
+
+                                window.location.href = "index.html";
+                            } else {
+                                _this.msg = response.data.msgString;
+                                alert(_this.msg);
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
+                regist() {
+                    window.location.href = "regist.html";
+                }
+            }
+        });
+
+    </script>
+
+
+</body>
+
+</html>
