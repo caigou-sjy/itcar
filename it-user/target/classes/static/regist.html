@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script type="text/javascript" src="jquery/jquery-3.5.0.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册</title>
+    <link rel="stylesheet" href="elementUI/index.css">
+    <script src="elementUI/vue.js"></script>
+    <script src="elementUI/index.js"></script>
+    <script src="elementUI/axios.min.js"></script>
+    <style>
+        .img {
+            background-image: url("img/img209.jpg");
+            /* background-size: cover; */
+            border-radius: 8px;
+        }
+
+        .el-main {
+            background-color: #b3d6ff;
+            color: #333;
+            text-align: center;
+            line-height: 160px;
+            margin: 120px;
+            opacity: 90%;
+        }
+        body>.el-container {
+            margin-bottom: 40px;
+        }
+
+        .el-container:nth-child(5) .el-aside,
+        .el-container:nth-child(6) .el-aside {
+            line-height: 260px ;
+        }
+
+        .el-container:nth-child(7) .el-aside {
+            line-height: 320px;
+        }
+    </style>
+</head>
+
+<body class="img">
+    <div id="app">
+        <el-container>
+            <el-main>
+
+                <h4>欢迎使用智慧优游租车平台</h4>
+                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                    <el-form-item label="用户名" prop="username">
+                        <el-input v-model="ruleForm.username"></el-input>
+                    </el-form-item>
+                    <el-form-item label="密码" prop="password">
+                        <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="确认密码" prop="checkPass">
+                        <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="年龄" prop="age">
+                        <el-input v-model.number="ruleForm.age"></el-input>
+                    </el-form-item>
+                    <el-form-item label="性别" prop="gender" style="text-align:left">
+                        <el-select v-model="ruleForm.gender" placeholder="请选择性别">
+                            <el-option label="男" value="男"></el-option>
+                            <el-option label="女" value="女"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="联系电话" prop="phone">
+                        <el-input v-model.number="ruleForm.phone"></el-input>
+                    </el-form-item>
+                    <el-form-item label="出生日期" required>
+                        <el-col :span="11">
+                            <el-form-item prop="birth">
+                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.birth"
+                                    style="width: 100%;">
+                                </el-date-picker>
+                            </el-form-item>
+                        </el-col>
+                    </el-form-item>
+                    <el-form-item label="现居地址" prop="address" style="text-align:left">
+                        <el-select v-model="provinceVal" placeholder="请选择省" @change="selectCity()">
+                            <el-option v-for="item in provinces" :key="item.id" :label="item.name"
+                                :value='item.id+"-"+item.name'> </el-option>
+                        </el-select>
+                        <el-select v-model="cityVal" placeholder="请选择市" @change="selectDistributes()">
+                            <el-option v-for="item in cities" :key="item.id" :label="item.name"
+                                :value='item.id+"-"+item.name'>
+                            </el-option>
+                        </el-select>
+                        <el-select v-model="distributeVal" placeholder="请选择区" @change="getAddress()">
+                            <el-option v-for="item in distributes" :key="item.id" :label="item.name" :value="item.name">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="用户头像" prop="picture" style="text-align:left">
+                        <el-upload class="upload-demo" drag action="../api/user/pictureUpload" multiple>
+                            <i class="el-icon-upload"></i>
+                            <div class="el-upload__text">
+                                将文件拖到此处，或<em>点击上传</em>
+                            </div>
+                            <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过10mb</div>
+                        </el-upload>
+                    </el-form-item>
+                    <el-form-item style="text-align:left">
+                        <el-button type="primary" @click="submitForm('ruleForm')">立即注册</el-button>
+                        <el-button @click="resetForm('ruleForm')">清空重置</el-button>
+                    </el-form-item>
+                </el-form>
+
+            </el-main>
+        </el-container>
+    </div>
+
+</body>
+<script>
+    var addr = '';
+    new Vue({
+        el: '#app',
+        data() {
+            var checkAge = (rule, value, callback) => {
+                if (value === '') {
+                    return callback(new Error('年龄不能为空'));
+                }
+                else if (!Number.isInteger(value)) {
+                    callback(new Error('请输入数字值'));
+                }
+                else if (value > 200 || value < 0) {
+                    callback(new Error('请输入实际年龄'));
+                }
+                else {
+                    callback();
+                }
+
+            };
+            var validatePass = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入密码'));
+                } else {
+                    if (this.ruleForm.checkPass !== '') {
+                        this.$refs.ruleForm.validateField('checkPass');
+                    }
+                    callback();
+                }
+            };
+            var validatePass2 = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请再次输入密码'));
+                } else if (value !== this.ruleForm.password) {
+                    callback(new Error('两次输入密码不一致!'));
+                } else {
+                    callback();
+                }
+            };
+            var checkNumber = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('电话不能为空'));
+                } else if (!Number.isInteger(value)) {
+                    callback(new Error('请输入11位电话数字'));
+                }
+                else if (value < 10000000000 || value > 20000000000) {
+                    callback(new Error('请输入11位正确电话号码'));
+                }
+
+
+                else {
+                    callback();
+                }
+            };
+            return {
+
+                provinces: [],
+                cities: [],
+                distributes: [],
+                provinceVal: '',
+                cityVal: '',
+                distributeVal: '',
+                ruleForm: {
+                    username: '',
+                    password: '',
+                    age: '',
+                    gender: '',
+                    phone: '',
+                    birth: '',
+                    address: '',
+
+                },
+                rules: {
+                    username: [
+                        { required: true, message: '请输入用户名', trigger: 'blur' },
+                        { min: 2, max: 10, message: '长度在 2 到 10 个字符', trigger: 'blur' }
+                    ],
+                    password: [
+                        { required: true, validator: validatePass, trigger: 'blur' },
+                        { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' }
+                    ],
+                    checkPass: [
+                        { required: true, validator: validatePass2, trigger: 'blur' }
+                    ],
+
+                    age: [
+                        { required: true, validator: checkAge, trigger: 'blur' },
+
+                    ],
+                    gender: [
+                        { required: true, message: '请选择性别', trigger: 'change' }
+                    ],
+                    phone: [
+                        { required: true, validator: checkNumber, trigger: 'blur' },
+
+                    ],
+
+                    birth: [
+                        { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+                    ],
+                    address: [
+                        { required: true, trigger: 'blur' }
+                    ],
+                }
+            };
+        },
+        mounted: function () {
+            var _this = this;
+
+            axios.get('../api/city/findProvinces')
+                .then(function (response) {
+                    console.log(response.data);
+                    _this.provinces = response.data.results;
+                    // 用返回的值覆盖了之前的provinces
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        },
+        methods: {
+            submitForm(formName) {
+                var _this = this;
+                var user = _this.ruleForm;
+
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        axios.post('../api/user/regist', user)
+                            .then(function (response) {
+                                console.log(response);
+                                localStorage.setItem("username", _this.username);
+                                alert("欢迎【" + response.data.results + "】,注册成功，即将跳回进行登录");
+                            });
+                        setTimeout(() => {
+                            // localStorage.setItem("username", this.username);
+
+                            window.location.href = "login.html";
+                        }, 2000);
+                    } else {
+                        console.log('注册失败，请核对信息');
+                        alert("注册失败，请核对信息");
+                        return false;
+                    }
+                });
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            },
+
+
+            selectCity: function () {
+                var words = this.provinceVal.split('-');
+                var pid = words[0];
+                addr += words[1];
+                console.log(words[0] + "  " + words[1] + "  " + addr);
+                var _this = this;
+                axios.get('../api/city/findCities?provinceId=' + pid)
+                    .then(function (response) {
+                        console.log(response.data);
+                        _this.cities = response.data.results;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            selectDistributes: function () {
+                var words = this.cityVal.split('-');
+                var pid = words[0];
+                addr += words[1];
+                console.log(words[0] + "  " + words[1] + "  " + addr);
+                var _this = this;
+                axios.get('../api/city/findDistributes?cityId=' + pid)
+                    .then(function (response) {
+                        console.log(response.data);
+                        _this.distributes = response.data.results;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            getAddress: function () {
+                this.ruleForm.address = addr + this.distributeVal;
+                console.log(this.ruleForm.address);
+            },
+        }
+    });
+</script>
+
+</html>
