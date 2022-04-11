@@ -14,8 +14,8 @@ import java.io.IOException;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/api")
-public class UserController {
+@RequestMapping("/api/login")
+public class LoginController {
     @Autowired
     IVerifyCodeService ivs;
 
@@ -28,6 +28,8 @@ public class UserController {
         return new HttpResp(2001,"产生验证码成功",null,new Date());
 
     }
+
+
 
     @PostMapping("/login")
     public HttpResp login(String username,String password,String inputCode,HttpSession session){
