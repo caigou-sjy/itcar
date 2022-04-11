@@ -1,4 +1,4 @@
-package com.sjy.it.authority.service;
+package com.sjy.it.user.service;
 
 import java.io.OutputStream;
 

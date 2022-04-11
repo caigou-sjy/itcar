@@ -1,4 +1,4 @@
-package com.sjy.it.authority.entity;
+package com.sjy.it.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.ibatis.type.Alias;
@@ -12,6 +12,7 @@ import java.util.Date;
 
 @Alias("User")
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Entity
 @Table(name = "user_tab")

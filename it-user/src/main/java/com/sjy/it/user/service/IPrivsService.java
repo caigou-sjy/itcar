@@ -1,7 +1,7 @@
-package com.sjy.it.authority.service;
+package com.sjy.it.user.service;
 
 
-import com.sjy.it.authority.entity.User;
+import com.sjy.it.user.entity.User;
 
 import java.util.List;
 

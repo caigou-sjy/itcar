@@ -1,4 +1,4 @@
-package com.sjy.it.authority.job;
+package com.sjy.it.user.job;
 
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;

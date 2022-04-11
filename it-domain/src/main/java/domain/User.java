@@ -13,7 +13,6 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Alias("User")
 public class User {
 	private Integer id;
 	private String username;

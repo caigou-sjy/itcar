@@ -1,4 +1,4 @@
-package com.sjy.it.authority.entity;
+package com.sjy.it.user.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

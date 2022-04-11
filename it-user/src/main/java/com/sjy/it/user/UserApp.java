@@ -1,4 +1,4 @@
-package com.sjy.it.authority;
+package com.sjy.it.user;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

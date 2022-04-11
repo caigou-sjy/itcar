@@ -1,4 +1,4 @@
-package com.sjy.it.authority.dto;
+package com.sjy.it.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

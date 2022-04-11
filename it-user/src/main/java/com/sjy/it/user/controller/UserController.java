@@ -1,7 +1,7 @@
-package com.sjy.it.authority.controller;
+package com.sjy.it.user.controller;
 
-import com.sjy.it.authority.dto.HttpResp;
-import com.sjy.it.authority.service.IVerifyCodeService;
+import com.sjy.it.user.dto.HttpResp;
+import com.sjy.it.user.service.IVerifyCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,4 +1,4 @@
-package com.sjy.it.authority.util;
+package com.sjy.it.user.util;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

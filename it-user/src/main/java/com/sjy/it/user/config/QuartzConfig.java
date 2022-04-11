@@ -1,6 +1,6 @@
-package com.sjy.it.authority.config;
+package com.sjy.it.user.config;
 
-import com.sjy.it.authority.job.QuartzJob;
+import com.sjy.it.user.job.QuartzJob;
 import org.quartz.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

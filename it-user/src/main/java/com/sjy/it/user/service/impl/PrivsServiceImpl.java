@@ -1,11 +1,11 @@
-package com.sjy.it.authority.service.impl;
+package com.sjy.it.user.service.impl;
 
 
-import com.sjy.it.authority.dao.IPRdao;
-import com.sjy.it.authority.dao.IUserDao;
-import com.sjy.it.authority.entity.PR;
-import com.sjy.it.authority.entity.User;
-import com.sjy.it.authority.service.IPrivsService;
+import com.sjy.it.user.dao.IPRdao;
+import com.sjy.it.user.dao.IUserDao;
+import com.sjy.it.user.entity.PR;
+import com.sjy.it.user.entity.User;
+import com.sjy.it.user.service.IPrivsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
