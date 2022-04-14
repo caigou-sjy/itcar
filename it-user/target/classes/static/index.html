@@ -191,13 +191,13 @@
             <el-container>
                 <el-header style="text-align: right; font-size: 12px">
 
-                    <el-col :span="12">
+                    <!-- <el-col :span="12">
                         <div class="demo-basic--circle">
                             <div class="block">
                                 <el-avatar :size="50" :src="userPicture"></el-avatar>
                             </div>
                         </div>
-                    </el-col>
+                    </el-col> -->
 
 
                     <i class="el-icon-s-home" @click="backToIndex()" style="margin-right: 15px">回到首页</i>
@@ -666,8 +666,7 @@
             myChart = echarts.init(document.getElementById('highGraph'));
             myChart.setOption(this.option);
             var _this = this;
-            //TODO:连接后台后打开此项
-            //_this.username = localStorage.getItem("username");
+            _this.username = localStorage.getItem("username");
 
             axios.get('../api/user/init')
                 .then(function (response) {

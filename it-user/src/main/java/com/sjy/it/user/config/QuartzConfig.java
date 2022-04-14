@@ -14,7 +14,7 @@ public class QuartzConfig {
                 .storeDurably().build();
     }
 
-    @Bean
+    //@Bean
     public Trigger jobTrigger(){
         SimpleScheduleBuilder ssb = SimpleScheduleBuilder.simpleSchedule()
                 .withIntervalInSeconds(5)

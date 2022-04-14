@@ -1,13 +1,18 @@
 package com.sjy.it.user.controller;
 
 import com.sjy.it.user.dto.HttpResp;
+import com.sjy.it.user.entity.User;
+import com.sjy.it.user.exception.VcodeException;
+import com.sjy.it.user.service.IUserService;
 import com.sjy.it.user.service.IVerifyCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -17,27 +22,43 @@ import java.util.Date;
 @RequestMapping("/api/login")
 public class LoginController {
     @Autowired
-    IVerifyCodeService ivs;
+    IUserService ius;
 
-    @GetMapping("/code.png")
-    public HttpResp vcode(HttpServletResponse resp, HttpSession session) throws IOException{
+    @Autowired
+    IVerifyCodeService ivs;
+    //待：处理验证码异常
+    @GetMapping(value="/code.png")
+    public HttpResp vcode(HttpServletResponse resp, HttpSession session) {
         //int code = VerifyCodeUtil.ctrat(resp.getOutputStream());
-        int code = ivs.getVerifyCode(resp.getOutputStream());//输出流
+        int code=0;
+        try {
+            code = ivs.getVerifyCode(resp.getOutputStream());
+        } catch (IOException e) {
+            System.out.println("生成验证码失败！");
+            e.printStackTrace();
+        }//输出流
         session.setAttribute("vcode",code);
-        System.out.println("....."+code);
-        return new HttpResp(2001,"产生验证码成功",null,new Date());
+        System.out.println("code------------>"+code);
+        return new HttpResp(2010,"产生验证码成功",null,new Date());
 
     }
 
-
-
-    @PostMapping("/login")
-    public HttpResp login(String username,String password,String inputCode,HttpSession session){
-        int code = (int)session.getAttribute("vcode");
+    @GetMapping("/login")
+    public HttpResp login(String username,String password,String inputCode,HttpSession session,HttpServletResponse resp) {
+        int code = Integer.valueOf((Integer) session.getAttribute("vcode"));
         if(code == Integer.parseInt(inputCode)){
-            return new HttpResp(2002,"验证码通过",null,new Date());
+            /**
+             * checkLogin(username, md5password)
+             * 当验证码正确，依次验证用户名为空/存在、密码正确
+             * 并查询出用户的privs集合放到静态缓存中
+             */
+            User user = ius.checkLogin(username, password);
+            session.setAttribute("user", user);
+            resp.addCookie(new Cookie("username", username));
+            return new HttpResp(0, "登录成功", null, new Date());
+
         }else{
-            return new HttpResp(4001,"验证码错误",null,new Date());
+            throw new VcodeException("验证码错误");
         }
     }
 
