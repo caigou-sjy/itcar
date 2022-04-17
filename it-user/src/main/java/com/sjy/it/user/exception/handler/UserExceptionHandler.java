@@ -1,10 +1,7 @@
 package com.sjy.it.user.exception.handler;
 
 import com.sjy.it.user.dto.HttpResp;
-import com.sjy.it.user.exception.AccountCanNotNoneException;
-import com.sjy.it.user.exception.AccountNotFoundException;
-import com.sjy.it.user.exception.InvildUserException;
-import com.sjy.it.user.exception.VcodeException;
+import com.sjy.it.user.exception.*;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -12,7 +9,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.Date;
 
 @ControllerAdvice
-public class UserPrivsExceptionHandler {
+public class UserExceptionHandler {
+
+
+
+
     @ExceptionHandler
     @ResponseBody
     public HttpResp handlerAccountCanNotNull(AccountCanNotNoneException e) {
@@ -35,6 +36,18 @@ public class UserPrivsExceptionHandler {
     @ResponseBody
     public HttpResp handlerVcode(VcodeException e) {
         return new HttpResp(4000, e.getMessage(), null, new Date());
+    }
+
+    @ExceptionHandler
+    @ResponseBody
+    public HttpResp handlerParameterException(ParameterException e) {
+        return new HttpResp(4004, e.getMessage(), null, new Date());
+    }
+
+    @ExceptionHandler
+    @ResponseBody
+    public HttpResp handlerAuthorityException(AuthorityException e) {
+        return new HttpResp(4005, e.getMessage(), null, new Date());
     }
 
 //    @ExceptionHandler

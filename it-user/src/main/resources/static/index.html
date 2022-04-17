@@ -98,13 +98,14 @@
         <h1 style="margin-left: 100px; color: rgb(255, 255, 255);font-size: 50px;">智慧优游租车平台</h1>
         <el-container>
             <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-                <el-menu :default-openeds="['1', '3']">
+                <!-- <el-menu :default-openeds="['3', '4']"> -->
+                <el-menu >
                     <el-submenu index="1">
                         <template slot="title"><i class="el-icon-message"></i>个人账号管理</template>
                         <el-menu-item-group>
                             <template slot="title">个人信息管理</template>
                             <el-menu-item index="1-1" @click="getUserInfo()">查看个人信息</el-menu-item>
-                            <el-menu-item index="1-2">修改个人信息</el-menu-item>
+                            <el-menu-item index="1-2" @click="getUserForm()">修改个人信息</el-menu-item>
                         </el-menu-item-group>
                         <el-menu-item-group title="账号管理">
                             <el-menu-item index="1-3">修改基础信息</el-menu-item>
@@ -142,8 +143,8 @@
                         </el-menu-item-group>
                         <el-menu-item-group>
                             <template slot="title">优惠券管理</template>
-                            <el-menu-item index="4-1" @click="getCouponList()">查看优惠券列表</el-menu-item>
-                            <el-menu-item index="4-2" @click="getCouponForm()">添加优惠券</el-menu-item>
+                            <el-menu-item index="4-3" @click="getCouponList()">查看优惠券列表</el-menu-item>
+                            <el-menu-item index="4-3" @click="getCouponForm()">添加优惠券</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
                     <el-submenu index="5">
@@ -201,17 +202,6 @@
 
 
                     <i class="el-icon-s-home" @click="backToIndex()" style="margin-right: 15px">回到首页</i>
-
-
-                    <el-dropdown>
-                        <!-- <i class="el-icon-s-home" style="margin-right: 15px"></i> -->
-                        <!-- <el-dropdown-menu slot="dropdown"> -->
-                            <!-- <el-dropdown-item ><a href="index.html" style="text-decoration: none;">回到主页</a></el-dropdown-item> -->
-                            
-                            <!-- <el-dropdown-item>新增</el-dropdown-item>
-                            <el-dropdown-item>删除</el-dropdown-item> -->
-                        <!-- </el-dropdown-menu> -->
-                    </el-dropdown>
                     <span>当前用户：{{username}}</span>
                     <i class="el-icon-error" @click="logout()" style="margin-right: 15px">退出登录</i>
                 </el-header>
@@ -262,7 +252,9 @@
                         <br>
 
                         <el-table :data="userTable" border style="width: 100%">
-                            <el-table-column fixed prop="username" label="姓名" width="150">
+                            <el-table-column fixed prop="id" label="用户id" width="60" >
+                            </el-table-column>
+                            <el-table-column fixed prop="username" label="姓名" width="70">
                             </el-table-column>
                             <el-table-column prop="age" label="年龄" width="120">
                             </el-table-column>
@@ -277,28 +269,81 @@
 
                             <el-table-column prop="createtime" label="注册日期" width="120">
                             </el-table-column>
-                            <el-table-column fixed="right" label="操作" width="100">
+                            <!-- <el-table-column fixed="right" label="操作" width="100">
                                 <template slot-scope="scope">
                                     <el-button @click="handleClick(scope.row)" type="text" size="small">注销</el-button>
-                                    <!-- <el-button type="text" size="small">编辑</el-button> -->
+                                    <el-button type="text" size="small">编辑</el-button>
                                 </template>
-                            </el-table-column>
+                            </el-table-column> -->
                         </el-table>
+                    </div>
+
+                    <div :style="states.showUserForm">
+                                                
+                        <br>
+                        <span>当前用户：{{username}}</span>
+                        <br>
+                        <!-- <h3>
+                            用户照片：______<img :src="userPicture"
+                                width="100px">_______
+                        </h3> -->
+                        <br>
+                        
+                        <el-form :model="userForm" :rules="rules" ref="userForm" label-width="100px" class="userForm">
+                            <el-form-item label="用户id" prop="id">
+                                <el-input v-model="userForm.id" :disabled="true"></el-input>
+                            </el-form-item>
+                            <el-form-item label="用户名" prop="username">
+                                <el-input v-model="userForm.username"></el-input>
+                            </el-form-item>
+                            <el-form-item label="年龄" prop="age">
+                                <el-input v-model.number="userForm.age"></el-input>
+                            </el-form-item>
+                            <el-form-item label="性别" prop="gender" style="text-align:left">
+                                <el-radio-group v-model="userForm.gender" placeholder="请选择性别">
+                                    <el-radio label="男"  value="男"></el-radio>
+                                    <el-radio label="女"  value="女"></el-radio>
+                                </el-radio-group>
+                            </el-form-item>
+                            <el-form-item label="联系电话" prop="phone">
+                                <el-input v-model.number="userForm.phone"></el-input>
+                            </el-form-item>
+                            <el-form-item label="出生日期" prop="birth" style="text-align:left">
+                                <el-date-picker
+                                        v-model="userForm.birth"
+                                        type="date"
+                                        placeholder="选择日期">
+                                </el-date-picker>
+                            </el-form-item>
+                            <el-form-item label="地址" prop="address">
+                                <el-input v-model="userForm.address"></el-input>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" @click="submitUserForm('userForm')">提交</el-button>
+                                <el-button @click="resetForm('userForm')">重置</el-button>
+                            </el-form-item>
+                        </el-form>
                     </div>
 
                     <div :style="states.showStaffList">
                         
                         <el-table :data="staffTable" border style="width: 100%">
-
-                            <el-table-column fixed prop="id" label="工号" width="150">
-                            </el-table-column> 
-                            <el-table-column fixed prop="name" label="姓名" width="150">
+                            <el-table-column fixed prop="id" label="工号" width="60" >
                             </el-table-column>
-                            <el-table-column prop="dept" label="部门" width="150">
+                            <el-table-column fixed prop="username" label="姓名" width="70">
                             </el-table-column>
-                            <el-table-column prop="role" label="角色" width="150">
+                            <el-table-column prop="age" label="年龄" width="120">
                             </el-table-column>
-
+                            <el-table-column prop="gender" label="性别" width="120">
+                            </el-table-column>
+                            <el-table-column prop="phone" label="电话" width="120">
+                            </el-table-column>
+                            <el-table-column prop="birth" label="出生日期" width="120">
+                            </el-table-column>
+                            <el-table-column prop="address" label="地址" width="300">
+                            </el-table-column>
+                            <el-table-column prop="createtime" label="注册日期" width="120">
+                            </el-table-column>
                             <el-table-column fixed="right" label="操作" width="100">
                                 <template slot-scope="scope">
                                     <el-button @click="handleClick(scope.row)" type="text" size="small">注销</el-button>
@@ -311,17 +356,21 @@
                     <div :style="states.showPeivsList">
                         
                         <el-table :data="privsTable" border style="width: 100%">
-                            <el-table-column fixed prop="staffName" label="员工姓名" width="150">
+                            <el-table-column fixed prop="userId" label="工号" width="60" >
                             </el-table-column>
-                            <el-table-column prop="privs" label="权限" width="500">
+                            <el-table-column prop="username" label="姓名" width="70">
+                            </el-table-column>
+                            <el-table-column prop="roleName" label="身份" width="150">
+                            </el-table-column>
+                            <el-table-column prop="privsString" label="权限" width="500">
                             </el-table-column>
 
-                            <el-table-column fixed="right" label="操作" width="100">
+                            <!-- <el-table-column fixed="right" label="操作" width="100">
                                 <template slot-scope="scope">
                                     <el-button @click="handleClick(scope.row)" type="text" size="small">注销</el-button>
-                                    <!-- <el-button type="text" size="small">编辑</el-button> -->
+                                    <el-button type="text" size="small">编辑</el-button>
                                 </template>
-                            </el-table-column>
+                            </el-table-column> -->
                         </el-table>
                     </div>
 
@@ -330,19 +379,15 @@
                             <el-form-item label="员工工号" prop="privsStaffId">
                               <el-input v-model="privsForm.privsStaffId"></el-input>
                             </el-form-item>
-                            <el-form-item label="权限" prop="privsArray">
-                              <el-checkbox-group v-model="privsForm.privsArray">
-                                <el-checkbox label="查看员工列表" name="type"></el-checkbox>
-                                <el-checkbox label="查看员工权限" name="type"></el-checkbox>
-                                <el-checkbox label="修改员工权限" name="type"></el-checkbox>
-                                <el-checkbox label="查看活动列表" name="type"></el-checkbox>
-                                <el-checkbox label="添加优惠活动" name="type"></el-checkbox>
-                                <el-checkbox label="查看优惠券列表" name="type"></el-checkbox>
-                                <el-checkbox label="添加优惠券" name="type"></el-checkbox> 
-                              </el-checkbox-group>
+                            <el-form-item label="变更权限" prop="privsRoleId" style="text-align:left">
+                                <el-radio-group v-model="privsForm.privsRoleId" size="medium">
+                                  <el-radio border label="1000">用户</el-radio>
+                                  <el-radio border label="2000">员工</el-radio>
+                                  <el-radio border label="3000">管理员</el-radio>
+                                </el-radio-group>
                             </el-form-item>
                             <el-form-item>
-                              <el-button type="primary" @click="submitForm('privsForm')">提交</el-button>
+                              <el-button type="primary" @click="submitPrivsForm('privsForm')">提交</el-button>
                               <el-button @click="resetForm('privsForm')">重置</el-button>
                             </el-form-item>
                           </el-form>
@@ -374,14 +419,14 @@
                             <el-form-item label="活动名称" prop="actName">
                                 <el-input v-model="activityForm.actName"></el-input>
                             </el-form-item>
-                            <el-form-item label="活动开始时间" prop="actBeginTime">
+                            <el-form-item label="活动开始时间" prop="actBeginTime" style="text-align:left">
                                 <el-date-picker
                                         v-model="activityForm.actBeginTime"
                                         type="datetime"
                                         placeholder="选择日期时间">
                                 </el-date-picker>
                             </el-form-item>
-                            <el-form-item label="活动结束时间" prop="actEndTime">
+                            <el-form-item label="活动结束时间" prop="actEndTime" style="text-align:left">
                                 <el-date-picker
                                         v-model="activityForm.actEndTime"
                                         type="datetime"
@@ -424,7 +469,7 @@
                             <el-form-item label="优惠券名称" prop="cpName">
                                 <el-input v-model="couponForm.cpName"></el-input>
                             </el-form-item>
-                            <el-form-item label="优惠券类型" prop="cpType">
+                            <el-form-item label="优惠券类型" prop="cpType" style="text-align:left">
                                 <el-radio-group v-model="couponForm.cpType">
                                     <el-radio label="折扣券"></el-radio>
                                     <el-radio label="满减券"></el-radio>
@@ -494,10 +539,38 @@
     new Vue({
         el: '#app',
         data() {
-            return {
+            var checkAge = (rule, value, callback) => {
+                if (value === '') {
+                    return callback(new Error('年龄不能为空'));
+                }
+                else if (!Number.isInteger(value)) {
+                    callback(new Error('请输入数字值'));
+                }
+                else if (value > 200 || value < 0) {
+                    callback(new Error('请输入实际年龄'));
+                }
+                else {
+                    callback();
+                }
 
+            };
+            var checkNumber = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('电话不能为空'));
+                } else if (!Number.isInteger(value)) {
+                    callback(new Error('请输入11位电话数字'));
+                }
+                else if (value < 10000000000 || value > 20000000000) {
+                    callback(new Error('请输入11位正确电话号码'));
+                }
+                else {
+                    callback();
+                }
+            };
+            return {
+                userId:'',
+                username: "未命名",
                 userPicture: '',
-                userId: "-1",
                 size: "medium",
                 states: {
                     showIndex: 'display:block',
@@ -512,48 +585,54 @@
                     showPrivsForm:'display:none',
                     showActivityForm:'display:none',
                     showCouponForm:'display:none',
+                    showUserForm:'display:none',
 
                 },
-                username: "未命名",
                 userTable: [
                     {
-                    date: '2016-05-02',
-                    username: '王小虎',
-                    age:"23",
-                    gender:"男",
-                    phone:"13399162213",
-                    birth:"2016-05-02",
-                    address: '上海市普陀区金沙江路 1518 弄',
-                    createtime:"2016-05-02"
+                    id:'',
+                    username: '',
+                    age:"",
+                    gender:"",
+                    phone:"",
+                    birth:"",
+                    address: '',
+                    createtime:""
                     }
                 ],
                 staffTable:[
-                    {id:'1',name:'王小虎',dept:'部门1',role:'普通员工'},
-                    {id:'2',
-                    name:'员工2',
-                    dept:'部门2',
-                    role:'普通员工',
-                    },
-                    {id:'3',
-                    name:'员工3',
-                    dept:'部门3',
-                    role:'普通员工',
-                    },
-                    {id:'4',
-                    name:'员工4',
-                    dept:'部门4',
-                    role:'普通员工',
-                    },
+                    {
+                    id:'',
+                    username: '',
+                    age:"",
+                    gender:"",
+                    phone:"",
+                    birth:"",
+                    address: '',
+                    createtime:""
+                    }
                 ],
                 privsTable:[
                     {
-                        staffName:'王小虎',
-                        privs:'查看员工列表，查看员工权限，修改员工权限，查看活动列表，添加优惠活动，查看优惠券列表，添加优惠券'
-                    },
+                        userId:'',
+                        username:'',
+                        roleName:'',
+                        privsString:''
+                    }
                 ],
+                userForm:{
+                    id:'',
+                    username: '',
+                    age:'',
+                    gender:"",
+                    phone:'',
+                    birth:"",
+                    address: '',
+                    createtime:""
+                },
                 privsForm:{
                     privsStaffId:'',
-                    privsArray:[],
+                    privsRoleId:'',
                 },
                 activityForm:{
                     actName:'',
@@ -568,11 +647,32 @@
                     cpActivityId:'',
                 },
                 rules:{
+                    username: [
+                        { required: true, message: '请输入用户名', trigger: 'blur' },
+                        { min: 2, max: 10, message: '长度在 2 到 10 个字符', trigger: 'blur' }
+                    ],
+                    age: [
+                        { required: true,trigger: 'blur' },
+                        { type:'number' , message:'请填写数字111'},
+                    ],
+                    gender: [
+                        { required: true, message: '请选择性别', trigger: 'change' }
+                    ],
+                    phone: [
+                        { required: true, validator: checkNumber, trigger: 'blur' },
+
+                    ],
+                    birth: [
+                        { type: 'string', required: true, message: '请选择日期', trigger: 'change' }
+                    ],
+                    address: [
+                        { required: true, trigger: 'blur' }
+                    ],
                     privsStaffId:[
                         {required: true, message:'请输入员工工号', trigger: 'blur'}
                     ],
-                    privsArray:[
-                        {type:'array', required: true, message:'请至少选择一项权限', trigger: 'change'},
+                    privsRoleId:[
+                        {required: true, message:'请选择一项权限', trigger: 'change'},
                     ],
                     actName:[
                         {required: true, message:'请输入', trigger: 'blur'}
@@ -691,11 +791,12 @@
         methods: {
             getUserInfo() {
                 var _this = this;
+                var typ = 'list';
                 for (var state in _this.states) {
                     _this.states[state] = 'display:none';
                 }
                 _this.states.showUserInfo = 'display:block';
-                axios.get('../api/user/getUserInfo')
+                axios.get('../api/user/getUserInfo?typ='+typ)
                     .then(function (response) {
                         console.log(response.data);
                         if (response.data.code == 2003) {
@@ -708,12 +809,74 @@
                         console.log(error);
                     });
             },
+            getUserForm(){
+                var _this = this;
+                var typ = 'entity';
+                for (var state in _this.states) {
+                    _this.states[state] = 'display:none';
+                }
+                _this.states.showUserForm = 'display:block';
+                axios.get('../api/user/getUserInfo?typ='+typ)
+                    .then(function (response) {
+                        console.log(response.data);
+                        if (response.data.code == 2003) {
+                            _this.userForm = response.data.results;
+                            _this.userForm.phone = parseInt(response.data.results.phone);
+                            _this.userForm.age = parseInt(response.data.results.age);
+                        } else {
+                            alert("拉取信息失败，请联系管理员！");
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            submitUserForm(formName){
+                var _this = this;
+                var user = _this.userForm;
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        axios.post('../api/user/updateUserInfo', user)
+                            .then(function (response) {
+                                console.log(response);
+                                localStorage.setItem("username", _this.username);
+                                alert("修改成功！");
+                            });
+                    } else {
+                        console.log('修改失败');
+                        if(response.data.msg!=null && response.data.msg!=undefined){
+                            alert(response.data.msg);
+                        } else {
+                            alert("修改失败，请重试！")
+                        }
+                        return false;
+                    }
+                 });
+             },
             getPrivsList(){
                 var _this = this;
                 for (var state in _this.states) {
                     _this.states[state] = 'display:none';
                 }
                 _this.states.showPeivsList = 'display:block';
+                axios.get('../api/staff/getPrivsList?userId='+_this.userId)
+                    .then(function (response) {
+                        console.log(response.data);
+                        if (response.data.code == 0) {
+                            _this.privsTable = response.data.results;
+                        } else {
+                            if(response.data.msg!=null && response.data.msg!=undefined){
+                                alert(response.data.msg);
+                            } else {
+                                alert("拉取数据失败，请重试！")
+                            }
+                            _this.backToIndex();
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        _this.backToIndex();
+                    });
  
             },
             getStaffList(){
@@ -722,7 +885,24 @@
                     _this.states[state] = 'display:none';
                 }
                 _this.states.showStaffList = 'display:block';
-
+                axios.get('../api/staff/getStaffList?userId='+_this.userId)
+                    .then(function (response) {
+                        console.log(response.data);
+                        if (response.data.code == 0) {
+                            _this.staffTable = response.data.results;
+                        } else {
+                            if(response.data.msg!=null && response.data.msg!=undefined){
+                                alert(response.data.msg);
+                            } else {
+                                alert("拉取数据失败，请重试！")
+                            }
+                            _this.backToIndex();
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        _this.backToIndex();
+                    });
             },
             getActivityList(){
                 var _this = this;
@@ -744,7 +924,61 @@
                     _this.states[state] = 'display:none';
                 }
                 _this.states.showPrivsForm = 'display:block'; 
+                //TODO: 鉴权失败不展示此页面
+                axios.get('../api/staff/getPrivsForm?userId='+_this.userId)
+                    .then(function (response) {
+                        console.log(response.data);
+                        if (response.data.code == 0) {
+                        } else {
+                            if(response.data.msg!=null && response.data.msg!=undefined){
+                                alert(response.data.msg);
+                            } else {
+                                alert("拉取数据失败，请重试！")
+                            }
+                            _this.backToIndex();
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        _this.backToIndex();
+                    });
             },
+            submitPrivsForm(formName){
+                var _this = this;
+                var privsForm = _this.privsForm;
+                var privsStaffId = _this.privsForm.privsStaffId;
+                var privsRoleId = _this.privsForm.privsRoleId;
+
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        axios.get('../api/staff/updateUserPrivs?userId='+_this.userId+'&privsStaffId='+privsStaffId+"&privsRoleId="+privsRoleId)
+                        //axios.post('../api/staff/updateUserPrivs',privsForm)
+                        .then(function (response) {
+                                console.log(response.data);
+                                if (response.data.code == 0) {
+                                    alert("修改成功！");
+                                } else {
+                                    console.log('修改失败');
+                                    if(response.data.msg!=null && response.data.msg!=undefined){
+                                        alert(response.data.msg);
+                                    } else {
+                                        alert("修改失败，请重试！")
+                                    }
+                                    _this.backToIndex();
+                                }
+                            });
+                    } else {
+                        console.log('修改失败');
+                        if(response.data.msg!=null && response.data.msg!=undefined){
+                            alert(response.data.msg);
+                        } else {
+                            alert("修改失败，请重试！")
+                        }
+                        _this.backToIndex();
+                        return false;
+                    }
+                 });
+             },
             getActivityForm(){
                 var _this = this;
                 for (var state in _this.states) {
@@ -772,6 +1006,7 @@
             resetForm(formName) {
                  this.$refs[formName].resetFields();
             },
+
             getBpressInfo() {
                 var _this = this;
                 var _uid = _this.userId;
