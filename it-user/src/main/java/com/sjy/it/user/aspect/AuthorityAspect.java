@@ -1,17 +1,13 @@
 package com.sjy.it.user.aspect;
 
 import com.sjy.it.user.enmus.PrivsEnmus;
-import com.sjy.it.user.entity.Privs;
 import com.sjy.it.user.entity.User;
+import com.sjy.it.user.util.CheckPrivsCacheUtil;
 import com.sjy.it.user.exception.AccountNotFoundException;
 import com.sjy.it.user.exception.AuthorityException;
 import com.sjy.it.user.exception.ParameterException;
 import com.sjy.it.user.service.IUserService;
-import com.sjy.it.user.util.Cache;
-import com.sjy.it.user.util.CacheKeyUtil;
-import com.sjy.it.user.util.CheckPrivsCacheUtil;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -23,9 +19,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * 此类为一个切面类，主要作用就是对接口的请求进行拦截

@@ -1,7 +1,6 @@
 package com.sjy.it.user.service;
 
 
-import com.sjy.it.user.entity.City;
 import com.sjy.it.user.entity.User;
 
 import java.util.List;

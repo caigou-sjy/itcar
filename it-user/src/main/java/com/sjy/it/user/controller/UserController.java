@@ -1,13 +1,10 @@
 package com.sjy.it.user.controller;
 
-import com.sjy.it.user.dto.HttpResp;
 import com.sjy.it.user.entity.User;
-import com.sjy.it.user.exception.AccountCanNotNoneException;
 import com.sjy.it.user.exception.ParameterException;
-import com.sjy.it.user.service.IUserService;
-import com.sjy.it.user.service.impl.UserServiceImpl;
 import com.sjy.it.user.util.PasswordUtil;
-import org.apache.commons.lang3.StringUtils;
+import com.sjy.it.user.dto.HttpResp;
+import com.sjy.it.user.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

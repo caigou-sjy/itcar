@@ -19,11 +19,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.sjy.springboot</groupId>
-            <artifactId>IntelligentTransportation-1.0</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${project.mysql.version}</version>

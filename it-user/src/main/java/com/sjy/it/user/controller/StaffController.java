@@ -1,23 +1,17 @@
 package com.sjy.it.user.controller;
 
 import com.sjy.it.user.annotation.StaffAnnotation;
-import com.sjy.it.user.dao.IPRdao;
-import com.sjy.it.user.dao.IPrivsDao;
-import com.sjy.it.user.dao.IRoleDao;
+import com.sjy.it.user.entity.User;
+import com.sjy.it.user.util.CacheKeyUtil;
 import com.sjy.it.user.dto.HttpResp;
 import com.sjy.it.user.entity.PR;
 import com.sjy.it.user.entity.Role;
-import com.sjy.it.user.entity.User;
 import com.sjy.it.user.entity.UserPrivs;
 import com.sjy.it.user.exception.AccountNotFoundException;
-import com.sjy.it.user.exception.ParameterException;
 import com.sjy.it.user.service.IPRService;
 import com.sjy.it.user.service.IPrivsService;
 import com.sjy.it.user.service.IRoleService;
 import com.sjy.it.user.service.IUserService;
-import com.sjy.it.user.service.impl.UserServiceImpl;
-import com.sjy.it.user.util.Cache;
-import com.sjy.it.user.util.CacheKeyUtil;
 import com.sjy.it.user.util.CacheUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpSession;
-import javax.sound.midi.SoundbankResource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

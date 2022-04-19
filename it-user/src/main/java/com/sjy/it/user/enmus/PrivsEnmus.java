@@ -1,6 +1,6 @@
 package com.sjy.it.user.enmus;
 
-import com.sjy.it.enums.Constants;
+import com.sjy.it.common.enums.Constants;
 
 public enum PrivsEnmus {
 

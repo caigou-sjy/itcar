@@ -1,18 +1,19 @@
 package com.sjy.it.user.service.impl;
 
-import com.sjy.it.user.aspect.AuthorityAspect;
 import com.sjy.it.user.dao.IPRdao;
-import com.sjy.it.user.entity.*;
-import com.sjy.it.user.exception.AccountCanNotNoneException;
-import com.sjy.it.user.exception.AccountNotFoundException;
-import com.sjy.it.user.exception.InvildUserException;
-import com.sjy.it.user.service.IUserService;
 import com.sjy.it.user.dao.IPrivsDao;
 import com.sjy.it.user.dao.IUserDao;
+import com.sjy.it.user.entity.PR;
+import com.sjy.it.user.entity.Role;
+import com.sjy.it.user.entity.User;
+import com.sjy.it.user.exception.AccountNotFoundException;
 import com.sjy.it.user.util.Cache;
 import com.sjy.it.user.util.CacheKeyUtil;
 import com.sjy.it.user.util.CacheUtil;
 import com.sjy.it.user.util.PasswordUtil;
+import com.sjy.it.user.exception.AccountCanNotNoneException;
+import com.sjy.it.user.exception.InvildUserException;
+import com.sjy.it.user.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

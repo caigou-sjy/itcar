@@ -1,14 +1,12 @@
 package com.sjy.it.user.controller;
 
-import com.sjy.it.user.dto.HttpResp;
 import com.sjy.it.user.entity.User;
+import com.sjy.it.user.dto.HttpResp;
 import com.sjy.it.user.exception.VcodeException;
 import com.sjy.it.user.service.IUserService;
 import com.sjy.it.user.service.IVerifyCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

@@ -1,6 +1,5 @@
 package com.sjy.it.user.entity;
 
-import com.sjy.it.user.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

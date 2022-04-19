@@ -2,32 +2,20 @@ package com.sjy.it.car.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import java.util.Date;
 
 /**
  * DTO对象
  * @author dyit
  */
-@Data
+@AllArgsConstructor
 @NoArgsConstructor
-public class HttpResp {
+@Data
 
-    private int id;
+public class HttpResp {
+    private Integer code;
     private String msg;
     private Object results;
-    private LocalDateTime time;
-
-    public HttpResp(int id, String msg, LocalDateTime time) {
-        this.id = id;
-        this.msg = msg;
-        this.time = time;
-    }
-
-    public HttpResp(int id, String msg, Object results, LocalDateTime time) {
-        this.id = id;
-        this.msg = msg;
-        this.results = results;
-        this.time = time;
-    }
+    private Date date;
 }

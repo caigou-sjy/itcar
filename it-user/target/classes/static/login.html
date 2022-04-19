@@ -47,13 +47,13 @@
                 <h1>欢迎使用智慧优游租车平台</h1>
                 <h4>请登录</h4>
                 <div>
-                <input type="text" v-model="username" placeholder="用户名">
+                    <input type="text" v-model="username" placeholder="用户名">
 
-                <input type="password" v-model="password" placeholder="密码">
+                    <input type="password" v-model="password" placeholder="密码">
                 </div>
                 <div>
-                <img src="../api/code.png">
-            </div>
+                    <img src="../api/login/code.png">
+                </div>
                 <input type="text" v-model="inputCode" placeholder="请输入验证码">
                 <button @click="login()">登录</button>
                 <button @click="regist()">新用户注册</button>
@@ -69,7 +69,7 @@
                 return {
                     username: '',
                     password: '',
-                    inputCode:'',
+                    inputCode: '',
                     msg: "未知错误原因"
                 }
             },
@@ -80,14 +80,18 @@
                     axios.get('../api/login/login?username=' + _this.username + "&password=" + _this.password + "&inputCode=" + _this.inputCode)
                         .then(function (response) {
                             console.log(response.data);
-                            if (response.data.code == 2001) {
-                                _this.msg = response.data.msgString;
+                            if (response.data.code == 0) {
+                                if(response.data.msg!=null && response.data.msg!=undefined){
+                                    _this.msg = response.data.msg;
+                                } else {
+                                    _this.msg = "登陆成功，当前用户：" + _this.username;
+                                }
                                 alert(_this.msg);
                                 localStorage.setItem("username", _this.username);
-
+                                localStorage.setItem("userId", _this.userId);
                                 window.location.href = "index.html";
                             } else {
-                                _this.msg = response.data.msgString;
+                                _this.msg = response.data.msg;
                                 alert(_this.msg);
                             }
                         })

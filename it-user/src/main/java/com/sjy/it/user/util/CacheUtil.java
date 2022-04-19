@@ -1,6 +1,5 @@
 package com.sjy.it.user.util;
 
-import com.sjy.it.user.controller.UserController;
 import com.sjy.it.user.entity.PR;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

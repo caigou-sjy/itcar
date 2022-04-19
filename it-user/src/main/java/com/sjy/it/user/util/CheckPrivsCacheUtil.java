@@ -1,14 +1,8 @@
 package com.sjy.it.user.util;
 
-import com.sjy.it.user.entity.Privs;
 import com.sjy.it.user.entity.User;
 import com.sjy.it.user.exception.AccountNotFoundException;
-import com.sjy.it.user.exception.ParameterException;
-import com.sjy.it.user.service.IPrivsService;
-import com.sjy.it.user.service.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
 import java.util.Map;
 
 public class CheckPrivsCacheUtil {
