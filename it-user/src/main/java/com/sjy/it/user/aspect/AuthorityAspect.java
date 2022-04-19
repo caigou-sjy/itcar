@@ -29,7 +29,7 @@ import java.util.List;
 
 /**
  * 此类为一个切面类，主要作用就是对接口的请求进行拦截
- * 拦截的方式，只需要在指定接口方法上面加上@MonitorRequest注解即可
+ * 拦截的方式，只需要在指定接口方法上面加上@StaffAnnotation注解即可
  */
 
 @Aspect
@@ -94,7 +94,4 @@ public class AuthorityAspect {
         }
 
     }
-
-
-
 }

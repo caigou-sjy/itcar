@@ -17,6 +17,7 @@ public class User {
 	private Integer id;
 	private String username;
 	private String password;
+	private Role role;
 	private Integer age;
 	private String gender;
 	private String phone;
@@ -26,8 +27,7 @@ public class User {
 	private String picture;
 	@JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
 	private Date createtime;
-	private Role role;
-	
+
 	
 
 }
