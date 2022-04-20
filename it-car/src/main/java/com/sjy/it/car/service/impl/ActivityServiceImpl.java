@@ -3,10 +3,12 @@ package com.sjy.it.car.service.impl;
 import com.sjy.it.car.dao.IActivityDao;
 import com.sjy.it.car.service.IActivityService;
 import com.sjy.it.car.entity.Activity;
+import com.sjy.it.common.exception.AccountNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * ActivityServiceImpl class
@@ -29,17 +31,21 @@ public class ActivityServiceImpl implements IActivityService {
 
     @Override
     public Activity findActById(Integer id) {
-
-        return null;
+        try {
+            Optional<Activity> act = iad.findById(id);
+            return act.get();
+        } catch (Exception e) {
+            throw new AccountNotFoundException("无效的活动id");
+        }
     }
 
     @Override
     public void deleteById(Integer id) {
-
+        iad.deleteById(id);
     }
 
     @Override
     public List<Activity> findAll() {
-        return null;
+        return iad.findAll();
     }
 }

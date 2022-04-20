@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ICouponService {
     Coupon save(Coupon coupon);
-    Coupon findActById(Integer id);
+    Coupon findCouponById(Integer id);
     void deleteById(Integer id);
     List<Coupon> findAll();
 }
