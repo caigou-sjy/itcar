@@ -1,0 +1,15 @@
+server:
+  port: 20001
+
+spring:
+  application:
+    name: it-eureka-server
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://192.168.0.126:10005/eureka

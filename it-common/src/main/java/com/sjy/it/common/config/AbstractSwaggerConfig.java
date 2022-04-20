@@ -9,14 +9,13 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 /**
  * Swagger配置类
- * @author dyit
  */
 public abstract class AbstractSwaggerConfig {
 
 
-    public Docket createRestApi(String title,String desc,String url,String version,String packageName){
+    public Docket createRestApi(String title, String desc, String url, String version, String packageName) {
         return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(myApiInfo(title,desc,url,version))
+                .apiInfo(myApiInfo(title, desc, url, version))
                 .select()
                 .apis(RequestHandlerSelectors.basePackage(packageName))
                 .paths(PathSelectors.any())
@@ -25,7 +24,7 @@ public abstract class AbstractSwaggerConfig {
     }
 
 
-    protected ApiInfo myApiInfo(String title,String desc,String url,String version){
+    protected ApiInfo myApiInfo(String title, String desc, String url, String version) {
         return new ApiInfoBuilder()
                 .title(title)
                 .description(desc)
