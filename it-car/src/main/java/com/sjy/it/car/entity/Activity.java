@@ -27,11 +27,14 @@ public class Activity {
     @Column(name = "activity_name")
     public String name;
     @Column(name = "activity_beginTime")
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     public Date beginTime;
-    @Column(name = "activity_endTime")
+    @Column(name = "activity_endTime HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
     public Date endTime;
     @Column(name = "activity_coupon_Kind_num")
     public Integer couponKindNum;
+    @Column(name = "activity_createtime HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
+    public Date createtime;
 }
