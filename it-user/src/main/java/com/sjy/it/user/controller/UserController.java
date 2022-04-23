@@ -71,6 +71,17 @@ public class UserController {
             return new HttpResp(2003, "获取userSession成功", user, new Date());
         }
     }
+    @ApiOperation(value = "获取用户信息")
+    @GetMapping("/getUserInfo")
+    public HttpResp getUserInfoById(Integer id){
+        try {
+            User user = ius.findUserById(id);
+            return new HttpResp(0,"查询指定用户成功",user,new Date());
+        } catch (Exception e) {
+            logger.error(e.toString());
+            return new HttpResp(-1,"查询指定用户失败",null,new Date());
+        }
+    }
 
     @ApiOperation(value = "修改用户信息")
     @PostMapping("/updateUserInfo")

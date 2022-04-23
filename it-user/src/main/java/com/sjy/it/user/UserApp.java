@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @SpringBootApplication
         //(exclude = {DruidDataSourceAutoConfigure.class, DataSourceAutoConfiguration.class})
-//@EntityScan(basePackages = "com.sjy.it.domain.entity")
+@EntityScan(basePackages = "com.sjy.it.domain.entity")
 public class UserApp {
     public static void main(String[] args) {
 

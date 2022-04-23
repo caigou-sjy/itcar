@@ -1,0 +1,17 @@
+server:
+  port: 20009
+
+spring:
+  application:
+    name: hospital-gateway
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://192.168.0.260:10005/eureka
+
+zuul:
+  routes:
+    first-rout:
+      path: /doctor/**
+      serviceId: hospital-doctor-houkeke

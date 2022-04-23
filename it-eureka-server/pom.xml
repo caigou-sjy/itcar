@@ -11,11 +11,7 @@
 
     <artifactId>it-eureka-server</artifactId>
 
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
-
+    <!--    eureka-server   -->
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
