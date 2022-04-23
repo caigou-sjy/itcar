@@ -9,10 +9,21 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 /**
  * Swagger配置类
+ * springboot+swagger 接口测试框架
+ * swagger有完整的文档
  */
 public abstract class AbstractSwaggerConfig {
 
 
+    /**
+     *
+     * @param title
+     * @param desc
+     * @param url
+     * @param version
+     * @param packageName controller的包
+     * @return
+     */
     public Docket createRestApi(String title, String desc, String url, String version, String packageName) {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(myApiInfo(title, desc, url, version))
@@ -23,7 +34,14 @@ public abstract class AbstractSwaggerConfig {
 
     }
 
-
+    /**
+     *
+     * @param title swagger文档标题
+     * @param desc 文档描述
+     * @param url 参考地址
+     * @param version 参考版本号
+     * @return ApiInfo对象
+     */
     protected ApiInfo myApiInfo(String title, String desc, String url, String version) {
         return new ApiInfoBuilder()
                 .title(title)

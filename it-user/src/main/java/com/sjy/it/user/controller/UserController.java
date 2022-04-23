@@ -5,6 +5,8 @@ import com.sjy.it.user.exception.ParameterException;
 import com.sjy.it.user.util.PasswordUtil;
 import com.sjy.it.user.dto.HttpResp;
 import com.sjy.it.user.service.IUserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Api(tags = "用户模块-用户功能")
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -30,12 +33,14 @@ public class UserController {
     @Autowired
     IUserService ius;
 
+    @ApiOperation(value = "初始化")
     @GetMapping("/init")
     public HttpResp Init(HttpSession session) {
         User user = (User) session.getAttribute("user");
         return new HttpResp(2000, "初始化成功", user, new Date());
     }
 
+    @ApiOperation(value = "注册")
     @PostMapping("/regist")
     public HttpResp regist(@RequestBody User user, HttpSession session, HttpServletResponse resp) {
         if (user == null) {
@@ -54,7 +59,8 @@ public class UserController {
         return new HttpResp(2002, "注册成功", user.getUsername(), new Date());
     }
 
-    @RequestMapping("/getUserInfo")
+    @ApiOperation(value = "获取用户信息")
+    @GetMapping("/getUserInfo")
     public HttpResp getUserInfo(String typ,HttpSession session) {
         User user = (User) session.getAttribute("user");
         if(typ!=null && "list".equals(typ)) {
@@ -66,7 +72,8 @@ public class UserController {
         }
     }
 
-    @RequestMapping("/updateUserInfo")
+    @ApiOperation(value = "修改用户信息")
+    @PostMapping("/updateUserInfo")
     public HttpResp updateUserInfo(@RequestBody User user,HttpSession session, HttpServletResponse resp) {
         if (user == null) {
             throw new ParameterException("参数异常，请核对!");
@@ -78,7 +85,8 @@ public class UserController {
         return new HttpResp();
     }
 
-    @RequestMapping("/logout")
+    @ApiOperation(value = "退出登录")
+    @GetMapping("/logout")
     public HttpResp logout(HttpSession session) {
 
 //		删除session的信息
@@ -93,6 +101,7 @@ public class UserController {
         return new HttpResp(2004, "退出登录", null, new Date());
     }
 
+    @ApiOperation(value = "上传用户头像")
     @PostMapping("/pictureUpload")
     public HttpResp pictureUpload(MultipartFile file, HttpServletRequest request) {
         System.out.println("============>" + file.getOriginalFilename());

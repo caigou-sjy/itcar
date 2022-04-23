@@ -1,13 +1,10 @@
-package domain;
+package com.sjy.it.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.ibatis.type.Alias;
-
 import javax.management.relation.Role;
-import javax.persistence.*;
 import java.util.Date;
 
 @AllArgsConstructor

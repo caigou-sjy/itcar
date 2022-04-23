@@ -13,17 +13,17 @@ import com.sjy.it.user.service.IPrivsService;
 import com.sjy.it.user.service.IRoleService;
 import com.sjy.it.user.service.IUserService;
 import com.sjy.it.user.util.CacheUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+@Api(tags = "用户模块-员工管理")
 @RestController
 @RequestMapping("/api/staff")
 public class StaffController {
@@ -42,7 +42,8 @@ public class StaffController {
     @Autowired
     IUserService ius;
 
-    @RequestMapping("/getStaffList")
+    @ApiOperation(value = "获取员工列表")
+    @GetMapping("/getStaffList")
     @StaffAnnotation
     public HttpResp getStaffList(@RequestParam(value = "userId") Integer userId) {
         List<User> staffList = ius.findAll();
@@ -53,7 +54,8 @@ public class StaffController {
         }
     }
 
-    @RequestMapping("/getPrivsList")
+    @ApiOperation(value = "查询员工权限列表")
+    @GetMapping("/getPrivsList")
     @StaffAnnotation
     public HttpResp getPrivsList(@RequestParam(value = "userId") Integer userId) {
         List<User> users = ius.findAll();
@@ -81,7 +83,8 @@ public class StaffController {
         }
     }
 
-    @RequestMapping("/updateUserPrivs")
+    @ApiOperation(value = "修改员工角色")
+    @PostMapping("/updateUserPrivs")
     @StaffAnnotation
     public HttpResp updateUserPrivs(@RequestParam(value = "userId") Integer userId,@RequestParam(value = "privsStaffId") String privsStaffId, @RequestParam(value = "privsRoleId") String privsRoleId) {
         int staffId = Integer.valueOf(privsStaffId);
@@ -106,10 +109,11 @@ public class StaffController {
 
     }
 
-    @RequestMapping("/getPrivsForm")
-    @StaffAnnotation
-    public HttpResp getPrivsForm(@RequestParam(value = "userId") Integer userId) {
-        return new HttpResp(0,"",null,new Date());
-    }
+//    @ApiOperation(value = "修改员工角色")
+//    @RequestMapping("/getPrivsForm")
+//    @StaffAnnotation
+//    public HttpResp getPrivsForm(@RequestParam(value = "userId") Integer userId) {
+//        return new HttpResp(0,"",null,new Date());
+//    }
 
 }
