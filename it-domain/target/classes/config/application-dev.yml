@@ -1,0 +1,8 @@
+server:
+  port: 8848
+
+#  数据库的具体种类和连接信息根据各个业务模块自己定义，可以选用mysql或其他数据库
+
+logging:
+  level:
+    com.sjy: debug

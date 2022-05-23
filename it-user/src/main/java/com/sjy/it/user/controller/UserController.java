@@ -59,7 +59,7 @@ public class UserController {
         return new HttpResp(2002, "注册成功", user.getUsername(), new Date());
     }
 
-    @ApiOperation(value = "获取用户信息")
+    @ApiOperation(value = "获取当前session用户信息")
     @GetMapping("/getUserInfo")
     public HttpResp getUserInfo(String typ,HttpSession session) {
         User user = (User) session.getAttribute("user");
@@ -71,8 +71,8 @@ public class UserController {
             return new HttpResp(2003, "获取userSession成功", user, new Date());
         }
     }
-    @ApiOperation(value = "获取用户信息")
-    @GetMapping("/getUserInfo")
+    @ApiOperation(value = "获取指定id用户信息")
+    @GetMapping("/getUserInfoById")
     public HttpResp getUserInfoById(Integer id){
         try {
             User user = ius.findUserById(id);

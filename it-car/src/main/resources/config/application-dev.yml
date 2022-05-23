@@ -15,3 +15,26 @@ spring:
 logging:
   level:
     com.sjy: debug
+
+eureka:
+  instance:
+    #    自动获取网关ip地址作为实例访问地址
+    prefer-ip-address: true
+
+  client:
+    #    是否同步节点
+    #    服务器本身不需要被别人发现，业务模块需要
+    fetch-registry: true
+    #    允许注册开关
+    #    服务器不需要注册自己，业务模块需要
+    register-with-eureka: true
+
+    service-url:
+      defaultZone: http://192.168.0.126:20001/eureka
+
+feign:
+  hystrix:
+    enabled: true
+ribbon:
+  ReadTimeout: 10000
+  ConnectTimeout: 10000

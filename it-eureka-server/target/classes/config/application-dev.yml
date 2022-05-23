@@ -1,0 +1,24 @@
+server:
+  port: 20001
+
+spring:
+  #  微服务名称（唯一性）
+  application:
+    name: springcloud-it-eureka-server
+
+eureka:
+  instance:
+    #    自动获取网关ip地址作为实例访问地址
+    prefer-ip-address: true
+    hostname: localhost-eureka
+
+  client:
+    #    是否同步节点
+    #    服务器本身不需要被别人发现，业务模块需要
+    fetch-registry: false
+    #    允许注册开关
+    #    服务器不需要注册自己，业务模块需要
+    register-with-eureka: false
+
+#    service-url:
+#      defaultZone: http://192.168.0.126:10005/eureka

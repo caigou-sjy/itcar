@@ -13,7 +13,7 @@ spring:
     show-sql: true
 
   application:
-    name: springcloud-it-user
+    name: springcloud-it-car
 
 logging:
   level:
@@ -23,7 +23,6 @@ eureka:
   instance:
     #    自动获取网关ip地址作为实例访问地址
     prefer-ip-address: true
-    hostname: localhost-eureka
 
   client:
     #    是否同步节点

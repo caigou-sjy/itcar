@@ -1,0 +1,6 @@
+server:
+  port: 8849
+
+logging:
+  level:
+    com.sjy: debug
